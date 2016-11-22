@@ -154,16 +154,16 @@ def query_employees():
 	all_emps = Employee.query.all()
 
 	if user_type is not None and region is not None:
-		all_emps = Farmer.query.filter_by(user_type=user_type, region=region).all()
+		all_emps = Employee.query.filter_by(user_type=user_type, region=region).all()
 	elif user_type is not None:
-		all_emps = Farmer.query.filter_by(user_type=user_type).all()
+		all_emps = Employee.query.filter_by(user_type=user_type).all()
 	elif region is not None:
-		all_emps = Farmer.query.filter_by(region=region).all()
+		all_emps = Employee.query.filter_by(region=region).all()
 
 	
 	serialized_emps = [emp.serialize for emp in all_emps]
 
-	return jsonify({'farmers': serialized_emps})
+	return jsonify({'employees': serialized_emps})
 
 
 """ FARMERS """
