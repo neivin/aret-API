@@ -54,7 +54,7 @@ class Farmer(db.Model):
 
 	@staticmethod
 	def hash_password(password):
-		self.password_hash = pass_context.encrypt(password)
+		return pass_context.encrypt(password)
 
 	def verify_password(self, password):
 		return pass_context.verify(password, self.password_hash)
