@@ -127,6 +127,8 @@ class Record(db.Model):
 
 # Create new record
 # Must have: farmer email, crop_id
+# curl -i -H "Content-Type: application/json" -X POST -d '{"email":"a@test.com", "crop_id":"2"}' https://shielded-cove-74710.herokuapp.com/api/records/new
+
 @app.route('/api/records/new', methods=['POST'])
 def new_record():
 	email= request.json.get('email')
@@ -148,7 +150,7 @@ def new_record():
 	return (jsonify({'farmer_id': new_rec.farmer_id,
 					'email': farmer.email,
 					'crop_id': crop_id,
-					'crop_name':crop.name,
+					'crop_name':crop.crop_name,
 					'date_created': Record.epoch_time(new_rec.date_created),
 					'date_harvested': None,
 					'crop_yield': None}), 201)
