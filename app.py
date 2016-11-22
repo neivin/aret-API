@@ -127,6 +127,7 @@ class Record(db.Model):
 	@property
 	def serialize(self):
 		return {
+			'id': self.id,
 			'farmer_id': self.farmer_id,
 			'crop_id': self.crop_id,
 			'date_created': self.date_created,
@@ -144,6 +145,45 @@ class Record(db.Model):
 # PUT - Harvest crop with yield
 # DELETE - Delete a record
 
+
+#PUT - harvest a crop with yield
+@app.route('/api/records/update/<int:record_id>', methods=['PUT'])
+def update_record(record_id):
+	if record_id < 1:
+		abort(400)
+
+	record = Record.query.filter_by(id=record_id).first()
+
+	# record does not exist
+	if record is None:
+		abort(400)
+
+	crop = Crop.query.filter_by(id=record.crop_id).first()
+	farmer = Farmer.query.filter_by(id=record.farmer_id).first()
+		
+	#no request
+	if not request.json:
+		abort(400)
+
+	#crop yield not in json data
+	crop_yield = request.json.get('crop_yield')
+	if crop_yield is None:
+		abort(400)
+
+	record.crop_yield = crop_yield
+	record.date_harvested = datetime.now()
+
+	#commit data
+	db.session.commit()
+
+	return (jsonify({'id': record.id
+					'farmer_id': record.farmer_id,
+					'farmer_email': farmer.email,
+					'crop_id': record.crop_id,
+					'crop_name':crop.crop_name,
+					'date_created': Record.epoch_time(record.date_created),
+					'date_harvested': Record.epoch_time(record.date_harvested),
+					'crop_yield': record.crop_yield}), 201)
 
 # Create new record
 # Must have: farmer email, crop_id
@@ -166,8 +206,9 @@ def new_record():
 	db.session.add(new_rec)
 	db.session.commit()
 
-	return (jsonify({'farmer_id': new_rec.farmer_id,
-					'email': farmer.email,
+	return (jsonify({'id': new_rec.id
+					'farmer_id': new_rec.farmer_id,
+					'farmer_email': farmer.email,
 					'crop_id': crop_id,
 					'crop_name':crop.crop_name,
 					'date_created': Record.epoch_time(new_rec.date_created),
@@ -228,7 +269,8 @@ def login_employee():
 
 	return jsonify({
 		'status': 'ok',
-		'email':email
+		'email':email,
+		'user_type': existing_emp.user_type
 		})
 
 
