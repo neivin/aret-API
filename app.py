@@ -179,10 +179,10 @@ def login_user():
 	existing_farmer = Farmer.query.filter_by(email=email).first()
 	
 	if existing_farmer is None:
-		return make_response(jsonify({'status':'invalid email'}), 401)
+		return (jsonify({'status':'invalid email'}), 401)
 
 	if not existing_farmer.verify_password(password):
-		return make_response(jsonify({'status':'invalid password'}), 401)
+		return (jsonify({'status':'invalid password'}), 401)
 
 	return jsonify({
 		'status': 'ok',
