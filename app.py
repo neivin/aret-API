@@ -2,6 +2,7 @@ from flask import Flask, request, abort, jsonify, make_response
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.heroku import Heroku
 from passlib.apps import custom_app_context as pass_context
+from datetime import datetime
 
 app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/aret-3750'
@@ -47,7 +48,7 @@ class Farmer(db.Model):
 	password_hash = db.Column(db.String(130))
 	region = db.Column(db.Integer)
 	age = db.Column(db.Integer)
-
+	#records = db.relationship('Record', backref='FARMERS', lazy='dynamic')
 
 	def __repr__(self):
 		return '<Farmer: %r>' % self.email
@@ -102,8 +103,57 @@ class Employee(db.Model):
 			'user_type': self.user_type
 		}
 
+class Record(db.Model):
+	__tablename__="FARMERCROPRECORDS"
+
+	id = db.Column(db.Integer, primary_key=True)
+	farmer_id= db.Column(db.Integer, db.ForeignKey('FARMERS.id'))
+	crop_id= db.Column(db.Integer, db.ForeignKey('CROPMASTERLIST.id'))
+	date_created=db.Column(db.DateTime)
+	date_harvested=db.Column(db.DateTime)
+	yield = db.Column(db.Integer)
+
+	@staticmethod
+	def epoch_time(date):
+		epoch = datetime.datetime(1970,1,1)
+		delta_time = int((date - epoch).total_seconds())
+
+		return delta_time
 
 """ ROUTES """
+
+""" FARMERCROPRECORDS """
+# POST - Add a new record
+
+# Create new record
+# Must have: farmer email, crop_id
+@app.route('/api/records/new', methods['POST'])
+def new_record():
+	email= request.json.get('email')
+	crop_id= request.json.get('crop_id')
+
+	if email is None or crop_id is None:
+		abort(400)
+
+	crop = Crop.query.filter_by(id=crop_id).first()
+	farmer = Farmer.query.filter_by(email=email).first()
+
+	if crop is None or farmer is None:
+		abort(400) # crop does not exist or farmer does not exist
+
+	new_rec = Record(farmer_id=farmer.id, crop_id=crop_id, date_created=datetime.now())
+	db.session.add(new_rec)
+	db.session.commit()
+
+	return (jsonify({'farmer_id': new_rec.farmer_id,
+					'email': farmer.email,
+					'crop_id': crop_id,
+					'crop_name':crop.name,
+					'date_created': Record.epoch_time(new_rec.date_created),
+					'date_harvested': None,
+					'yield': None}), 201)
+
+
 
 """ ARET EMPLOYEES """
 # GET - Check login details of farmer 
