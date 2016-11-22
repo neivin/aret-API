@@ -52,6 +52,7 @@ class Farmer(db.Model):
 	def __repr__(self):
 		return '<Farmer: %r>' % self.email
 
+	@staticmethod
 	def hash_password(self, password):
 		self.password_hash = pass_context.encrypt(password)
 
@@ -72,10 +73,19 @@ class Farmer(db.Model):
 """ ROUTES """
 
 """ FARMERS """
+""" GET - List of all farmers """
 """ GET - Get list of farmers on some criteria """
-""" GET - Check login for a farmer """
-""" POST - Make a new farmer account """
-""" PUT - Update farmer infor """
+""" GET - Check login for a farmer """ 
+""" POST - Make a new farmer account """ #done
+""" PUT - Update farmer info """
+
+@app.route('/api/farmers')
+def get_farmers():
+	all_farmers = Farmer.query.all()
+	serialized_farmers = [farmer.serialize for farmer in all_farmers]
+
+	return jsonify({'farmers': serialized_farmers})
+	
 
 # curl -i -H "Content-Type: application/json" -X POST -d '{"email":"a2@test.com", "password":"password"}' https://shielded-cove-74710.herokuapp.com/api/farmers/new
 @app.route('/api/farmers/new', methods=['POST'])
@@ -94,18 +104,62 @@ def new_farmer():
 	if Farmer.query.filter_by(email=email).first() is not None:
 		abort(400)
 
-	farmer = Farmer(email=email, phone=phone, region=region, age=age)
-	farmer.hash_password(password)
+	pw_hash = Farmer.hash_password(password)
+
+	farmer = Farmer(email=email, password_hash= pw_hash, phone=phone, region=region, age=age)
+	
 	db.session.add(farmer)
 	db.session.commit()
 
 	return (jsonify({'email': farmer.email}), 201)
 
+# PUT - Update a farmer's information
+#
+@app.route('/api/farmers/update', methods=['PUT'])
+def update_farmer():
+	
+	if not request.json:
+		abort(400)
+
+	email = request.json.get('email')
+	password = request.json.get('password')
+	phone = request.json.get('phone')
+	region = request.json.get('region')
+	age = request.json.get('age')
+
+	existing_farmer = Farmer.query.filter_by(email=email).first()
+
+	# farmer doesn't exist
+	if existing_farmer is None:
+		abort(400)
+
+	if password is not None:
+		existing_farmer.password_hash = Farmer.hash_password(password)
+
+	if phone is not None:
+		existing_farmer.phone = phone
+
+	if region is not None:
+		existing_farmer.region = region
+
+	if age is not None:
+		existing_farmer.age = age
+
+	db.session.commit()
+
+	return jsonify({
+			'id': existing_farmer.id,
+			'email': existing_farmer.email,
+			'phone': existing_farmer.phone,
+			'age': existing_farmer.age,
+			'region': existing_farmer.region
+		})
+
+
 
 #@app.route('/api/farmers/login?u=<string: email>&p=<string: password>')
 #def login_user(email, password):
 #	pass
-
 
 
 
@@ -122,14 +176,7 @@ def get_all_crops():
 
 
 
-@app.route('/api/user/<int:id>')
-def get_user(id):
-	user = User.query.get(id)
-	if not user:
-		abort(400)
-	return jsonify({ 'id': user.id, 'email': user.email})
-
-
+""" Run app """
 if __name__ == 'main':
 	app.debug = True
 	app.run()
