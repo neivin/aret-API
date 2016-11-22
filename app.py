@@ -140,7 +140,6 @@ class Record(db.Model):
 
 """ FARMERCROPRECORDS """
 # POST - Add a new record <done>
-# GET - Get all records (necessary?) done
 # GET - Get records of a specific farmer <done>
 # PUT - Harvest crop with yield done
 # DELETE - Delete a record TODOOOOOOOOOOOOOOOOOOOOOOOOOOOO
