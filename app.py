@@ -240,6 +240,41 @@ def query_farmer_record():
 # GET - Check login details of farmer 
 # GET - List all employees
 # GET - List of employees filtered on som criteria
+# POST - Create account
+
+
+# curl -i -H "Content-Type: application/json" -X POST -d '{"email":"a2@test.com", "password":"password"}' https://shielded-cove-74710.herokuapp.com/api/farmers/new
+@app.route('/api/employees/new', methods=['POST'])
+def new_employee():
+	email = request.json.get('email')
+	name = request.json.get('name')
+	password = request.json.get('password')
+	phone = request.json.get('phone')
+	region = request.json.get('region')
+	age = request.json.get('age')
+	user_type = request.json.get('user_type')
+
+	# email and password must be there
+	if email is None or password is None or user_type is None:
+		abort(400)
+
+	# user already exists
+	if Employee.query.filter_by(email=email).first() is not None:
+		abort(400)
+
+	# user_type is not 1-4
+	if user_type < 1 or user_type > 4:
+		abort(400)
+
+	pw_hash = Employee.hash_password(password)
+
+	emp = Employee(name=name, email=email, user_type=user_type, password_hash= pw_hash, phone=phone, region=region, age=age)
+	
+	db.session.add(emp)
+	db.session.commit()
+
+	return (jsonify({'id': emp.id, 'email': emp.email, 'user_type': emp.user_type}), 201)
+
 
 @app.route('/api/employees/all')
 def get_employees():
