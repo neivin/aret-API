@@ -436,6 +436,9 @@ def get_farmers():
 # curl -i -H "Content-Type: application/json" -X POST -d '{"email":"a2@test.com", "password":"password"}' https://shielded-cove-74710.herokuapp.com/api/farmers/new
 @app.route('/api/farmers/new', methods=['POST'])
 def new_farmer():
+	if not request.json:
+		abort(400)
+
 	email = request.json.get('email')
 	name = request.json.get('name')
 	password = request.json.get('password')
