@@ -22,3 +22,36 @@ __repr__: returns a printable representation of the farmer's email
 hash_password: encrypts password using sql-alchemy's built in encryption method
 verify_password: verifies the provided password using the password_hash and sqlalchemy's verify method
 serialize - formats and returns information in a dictionary format
+
+
+# method: get_farmers()
+# URL: /api/farmers/all
+#
+# this method returns all farmers infomation as a json list through URL
+
+# method: new_farmer()
+# URL: /api/farmers/new
+#
+# this method create a new farmer into database
+# the infomations must be given are farmer email and password through URL
+# it returns the primary key of farmer and the farmer email
+
+# method: update_farmer
+# URL: /api/farmers/update
+#
+# this method update a farmer's information through URL
+# the information must be given is farmer email
+# it returns the changed json table
+
+# method: login_user()
+# URL: /api/farmers/login
+#
+# the farmer email and password must be given through URL
+# it returns the login status and farmer email as a json table
+
+# method: query_farmers()
+# URL: /api/farmers/query
+#
+# this method is a filter farmer's age or region
+# one of them or both must be given
+# return all farmers satisfy the filter condition as a json list
