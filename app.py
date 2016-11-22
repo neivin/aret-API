@@ -101,9 +101,9 @@ def new_farmer():
 	return (jsonify({'email': farmer.email}), 201)
 
 
-@app.route('/api/farmers/login?u=<string: email>&p=<string: password>')
-def login_user(email, password):
-	pass
+#@app.route('/api/farmers/login?u=<string: email>&p=<string: password>')
+#def login_user(email, password):
+#	pass
 
 
 
