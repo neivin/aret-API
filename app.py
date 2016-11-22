@@ -9,6 +9,34 @@ app = Flask(__name__)
 heroku = Heroku(app)
 db = SQLAlchemy(app)
 
+# -----------------
+# |     MODELS    |
+# -----------------
+
+class Crop(db.Model):
+	__tablename__ = "CROPMASTERLIST"
+
+	id = db.Column(db.Integer, primary_key=True)
+	crop_name = db.Column(db.String(20), unique=True)
+	description = db.Column(db.String(140))
+
+	def __init__(self, name, desc):
+		self.crop_name = name
+		self.description = desc
+
+	def __repr__(self):
+		return '<Crop: %r>' %self.crop_name
+
+	@property
+	def serialize(self):
+		""" Return object in easily serializable format """
+		return {
+			'id': self.id,
+			'crop_name': self.crop_name,
+			'description': self.description
+		}
+
+
 class User(db.Model):
 	__tablename__="users"
 	id = db.Column(db.Integer, primary_key=True)
@@ -22,6 +50,14 @@ class User(db.Model):
 
 
 #routes
+
+@app.route('/api/crops')
+def get_all_crops():
+	all_crops = Crop.query.all()
+	serialized_crops = [crop.serialize for crop in all_crops]
+
+	return jsonify(json_crop_list)
+
 @app.route('/api/user/<int:id>')
 def get_user(id):
 	user = User.query.get(id)
