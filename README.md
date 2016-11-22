@@ -53,7 +53,7 @@ required: email, password
 returns: json object containing status, email, and user type
 
 ### GET - Query some criteria
-URL: https://shielded-cove-74710.herokuapp.com/api/employees/query
+URL: https://shielded-cove-74710.herokuapp.com/api/employees/query?user_type=2&region=1
 
 queries the database to produce a list of ARET employees based on type and/or region
 
@@ -118,7 +118,7 @@ required: farmer email, crop_id
 returns: json object containing all information for the new record
 
 ### GET - Query farmer records
-URL: https://shielded-cove-74710.herokuapp.com/api/records/farmer
+URL: https://shielded-cove-74710.herokuapp.com/api/records/farmer?email=x@y.com
 
 queries the database for record history of a farmer
 
