@@ -124,11 +124,15 @@ class Record(db.Model):
 
 """ FARMERCROPRECORDS """
 # POST - Add a new record
+# GET - Get all records (necessary?)
+# GET - Get records of a specific farmer
+# PUT - Harvest crop with yield
+# DELETE - Delete a record
+
 
 # Create new record
 # Must have: farmer email, crop_id
 # curl -i -H "Content-Type: application/json" -X POST -d '{"email":"a@test.com", "crop_id":"2"}' https://shielded-cove-74710.herokuapp.com/api/records/new
-
 @app.route('/api/records/new', methods=['POST'])
 def new_record():
 	email= request.json.get('email')
