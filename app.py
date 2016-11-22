@@ -73,11 +73,11 @@ class Farmer(db.Model):
 """ ROUTES """
 
 """ FARMERS """
-""" GET - List of all farmers """
+#""" GET - List of all farmers """
 """ GET - Get list of farmers on some criteria """
 """ GET - Check login for a farmer """ 
-""" POST - Make a new farmer account """ #done
-""" PUT - Update farmer info """
+#""" POST - Make a new farmer account """
+#""" PUT - Update farmer info """ 
 
 @app.route('/api/farmers')
 def get_farmers():
@@ -164,9 +164,16 @@ def update_farmer():
 
 
 
-#@app.route('/api/farmers/login?u=<string: email>&p=<string: password>')
-#def login_user(email, password):
-#	pass
+# In the format ?email=x@example.com&password=something
+@app.route('/api/farmers/login')
+def login_user():
+	email = request.args.get('email')
+	password = request.args.get('password')
+
+	return jsonify({
+		'email':email,
+		'password': password
+		})
 
 
 
