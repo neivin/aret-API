@@ -188,7 +188,7 @@ def query_farmer_record():
 
 	serialized_records = [record.serialize for record in all_records]
 	
-	return jsonify('records': serialized_records)
+	return jsonify({'records': serialized_records})
 
 
 
