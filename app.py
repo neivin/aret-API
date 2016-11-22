@@ -147,7 +147,7 @@ def login_employee():
 # GET - Query farmers on some criteria
 # Query terms: user_type, region
 @app.route('/api/employees/query')
-def query_farmers():
+def query_employees():
 	user_type = request.args.get('user_type')
 	region = request.args.get('region')
 
