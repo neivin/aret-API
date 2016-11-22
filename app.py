@@ -118,12 +118,8 @@ def new_farmer():
 # curl -i -H "Content-Type: application/json" -X PUT -d '{"email":"a@test.com", "name":"test name"}' https://shielded-cove-74710.herokuapp.com/api/farmers/update
 @app.route('/api/farmers/update', methods=['PUT'])
 def update_farmer():
-	print 'entered update'
-	
 	if not request.json:
 		abort(400)
-
-	print "reached 1"
 
 	email = request.json.get('email')
 	name = request.json.get('name')
@@ -158,7 +154,8 @@ def update_farmer():
 	db.session.commit()
 
 	return jsonify({
-			'id': existing_farmer.id,
+			'id': existing_farmer.id
+			'name': existing_farmer.name,
 			'email': existing_farmer.email,
 			'phone': existing_farmer.phone,
 			'age': existing_farmer.age,
