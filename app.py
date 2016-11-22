@@ -145,6 +145,30 @@ class Record(db.Model):
 # PUT - Harvest crop with yield done
 # DELETE - Delete a record TODOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 
+# DELETE - Delete a record
+@app.route('/api/records/delete/<int:record_id>', methods=['DELETE'])
+def delete_record(record_id):
+	if record_id < 1:
+		abort(400)
+
+	record = Record.query.filter_by(id=record_id).first()
+
+	if record is None:
+		abort(400)
+
+	deleted_rec = jsonify({'id': record.id,
+					'farmer_id': record.farmer_id,
+					'crop_id': record.crop_id,
+					'date_created': Record.epoch_time(record.date_created),
+					'date_harvested': Record.epoch_time(record.date_harvested),
+					'crop_yield': record.crop_yield})
+
+	db.session.delete(record)
+	db.session.commit()
+
+	return (deleted_rec, 200)
+
+
 
 #PUT - harvest a crop with yield
 @app.route('/api/records/update/<int:record_id>', methods=['PUT'])
