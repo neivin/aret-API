@@ -21,6 +21,17 @@ required: email, password
 
 returns: json object containing id, email and user type
 
+### PUT - Edit an employee
+URL: https://shielded-cove-74710.herokuapp.com/api/employees/update
+
+Edits an existing ARET employee's details
+
+required: email
+
+optional: password, name, phone, user_type, region
+
+returns: 200 OK. JSON object with employee's updated details. 
+
 ### GET - Get the list of all employees
 URL: https://shielded-cove-74710.herokuapp.com/api/employees/all
 
