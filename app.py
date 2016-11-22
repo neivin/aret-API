@@ -146,8 +146,6 @@ class Record(db.Model):
 # DELETE - Delete a record TODOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 
 
-
-
 #PUT - harvest a crop with yield
 @app.route('/api/records/update/<int:record_id>', methods=['PUT'])
 def update_record(record_id):
@@ -243,7 +241,7 @@ def query_farmer_record():
 # POST - Create account
 
 
-# curl -i -H "Content-Type: application/json" -X POST -d '{"email":"a2@test.com", "password":"password"}' https://shielded-cove-74710.herokuapp.com/api/farmers/new
+# curl -i -H "Content-Type: application/json" -X POST -d '{"email":"testadmin@test.com", "password":"password", "user_type":1}' https://shielded-cove-74710.herokuapp.com/api/employees/new
 @app.route('/api/employees/new', methods=['POST'])
 def new_employee():
 	email = request.json.get('email')
@@ -274,7 +272,7 @@ def new_employee():
 
 	return (jsonify({'id': emp.id, 'email': emp.email, 'user_type': emp.user_type}), 201)
 
-
+# GET - list of all employees
 @app.route('/api/employees/all')
 def get_employees():
 	all_employees = Employee.query.all()
