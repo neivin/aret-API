@@ -14,9 +14,14 @@ app = Flask(__name__)
 heroku = Heroku(app)
 db = SQLAlchemy(app)
 
-# -----------------
-# |     MODELS    |
-# -----------------
+
+"""
+ MODELS
+ 	Crop: 		id, crop_name, description
+ 	Farmer:		id, email, password_hash, name, region, age
+ 	Employee:	id, email, password_hash, name, region, user_type
+ 	Record:		id, farmer_id, crop_id, date_created, date_harvested, crop_yield
+"""
 
 class Crop(db.Model):
 	__tablename__ = "CROPMASTERLIST"
