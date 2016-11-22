@@ -44,7 +44,7 @@ class Farmer(db.Model):
 	email = db.Column(db.String(120), unique=True)
 	name = db.Column(db.String(40))
 	phone = db.Column(db.String(20))
-	password_hash = db.Column(db.String(64))
+	password_hash = db.Column(db.String(130))
 	region = db.Column(db.Integer)
 	age = db.Column(db.Integer)
 
