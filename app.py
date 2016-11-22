@@ -118,8 +118,9 @@ def new_farmer():
 # curl -i -H "Content-Type: application/json" -X PUT -d '{"email":"a@test.com", phone":"123456789", "region":"2"}' https://shielded-cove-74710.herokuapp.com/api/farmers/update
 @app.route('/api/farmers/update', methods=['PUT'])
 def update_farmer():
-	
+	print 'entered update'
 	if not request.json:
+		print 'not request json'
 		abort(400)
 
 	name = request.json.get('name')
