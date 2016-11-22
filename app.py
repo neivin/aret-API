@@ -70,7 +70,101 @@ class Farmer(db.Model):
 			'age': self.age
 		}
 
+class Employee(db.Model):
+	__tablename__="ARETEMPLOYEES"
+
+	id = db.Column(db.Integer, primary_key=True)
+	email = db.Column(db.String(120), unique=True)
+	name = db.Column(db.String(40))
+	phone = db.Column(db.String(20))
+	password_hash = db.Column(db.String(130))
+	user_type = db.Column(db.Integer)
+	region = db.Column(db.Integer)
+
+	def __repr__(self):
+		return '<ARETEmployee: %r>' % self.email
+
+	@staticmethod
+	def hash_password(password):
+		return pass_context.encrypt(password)
+
+	def verify_password(self, password):
+		return pass_context.verify(password, self.password_hash)
+
+	@property
+	def serialize(self):
+		return {
+			'id': self.id,
+			'email': self.email,
+			'name': self.name,
+			'phone': self.phone,
+			'region': self.region,
+			'user_type': self.user_type
+		}
+
+
 """ ROUTES """
+
+""" ARET EMPLOYEES """
+# GET - Check login details of farmer 
+# GET - List all employees
+# GET - List of employees filtered on som criteria
+
+@app.route('/api/employees/all')
+def get_employees():
+	all_employees = Employee.query.all()
+	serialized_employees = [emp.serialize for emp in all_employees]
+
+	return jsonify({'employees': serialized_employees})
+
+# GET - Pass in login information to get response
+# In the format ?email=x@example.com&password=something
+@app.route('/api/employees/login')
+def login_employee():
+	email = request.args.get('email')
+	password = request.args.get('password')
+
+
+	if email is None:
+		abort(400)
+	if password is None:
+		abort(400)
+
+	existing_emp = Employee.query.filter_by(email=email).first()
+	
+	if existing_emp is None:
+		return make_response(jsonify({'status':'invalid email'}), 401)
+
+	if not existing_emp.verify_password(password):
+		return make_response(jsonify({'status':'invalid password'}), 401)
+
+	return jsonify({
+		'status': 'ok',
+		'email':email
+		})
+
+
+# GET - Query farmers on some criteria
+# Query terms: user_type, region
+@app.route('/api/employees/query')
+def query_farmers():
+	user_type = request.args.get('user_type')
+	region = request.args.get('region')
+
+	all_emps = Employee.query.all()
+
+	if user_type is not None and region is not None:
+		all_emps = Farmer.query.filter_by(user_type=user_type, region=region).all()
+	elif user_type is not None:
+		all_emps = Farmer.query.filter_by(user_type=user_type).all()
+	elif region is not None:
+		all_emps = Farmer.query.filter_by(region=region).all()
+
+	
+	serialized_emps = [emp.serialize for emp in all_emps]
+
+	return jsonify({'farmers': serialized_emps})
+
 
 """ FARMERS """
 #""" GET - List of all farmers """
@@ -79,7 +173,7 @@ class Farmer(db.Model):
 #""" POST - Make a new farmer account """
 #""" PUT - Update farmer info """ 
 
-@app.route('/api/farmers')
+@app.route('/api/farmers/all')
 def get_farmers():
 	all_farmers = Farmer.query.all()
 	serialized_farmers = [farmer.serialize for farmer in all_farmers]
