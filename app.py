@@ -270,7 +270,7 @@ def query_farmer_record():
 # PUT - Update employee info
 
 # PUT - Update employe information
-# curl -i -H "Content-Type: application/json" -X PUT -d '{"email":"a@test.com", "name":"test name"}' https://shielded-cove-74710.herokuapp.com/api/farmers/update
+# curl -i -H "Content-Type: application/json" -X PUT -d '{"email":"admin@aret.com", "name":"BIG BAD ADMINISTRATOR"}' https://shielded-cove-74710.herokuapp.com/api/employees/update
 @app.route('/api/employees/update', methods=['PUT'])
 def update_employee():
 	if not request.json:
