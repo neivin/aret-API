@@ -115,17 +115,18 @@ def new_farmer():
 	return (jsonify({'id': farmer.id, 'email': farmer.email}), 201)
 
 # PUT - Update a farmer's information
-# curl -i -H "Content-Type: application/json" -X PUT -d '{"email":"a@test.com", phone":"123456789", "region":"2"}' https://shielded-cove-74710.herokuapp.com/api/farmers/update
+# curl -i -H "Content-Type: application/json" -X PUT -d '{"email":"a@test.com", "name":"test name"}' https://shielded-cove-74710.herokuapp.com/api/farmers/update
 @app.route('/api/farmers/update', methods=['PUT'])
 def update_farmer():
 	print 'entered update'
 	
-	#if not request.json:
-	#	abort(400)
+	if not request.json:
+		abort(400)
 
 	print "reached 1"
-	name = request.json.get('name')
+
 	email = request.json.get('email')
+	name = request.json.get('name')
 	password = request.json.get('password')
 	phone = request.json.get('phone')
 	region = request.json.get('region')
