@@ -1,57 +1,64 @@
-class Crop
-This table contains a master list of all crops that are recognized by this application, and a small description of the crop
+method new_record()
+URL: https://shielded-cove-74710.herokuapp.com/api/records/new
+adds a new record to farmer's history
+required: farmer email, crop id
+returns: json object containing all information for the new record
 
-class Employee
-This is the ARET Employee table for the database, contains all pertinent
-information for employees
-Ambiguous Attributes:
-user_type - integer corresponding to different user types: 1 admin, 2 researcher, 3 ext group, 4 ext off/agent
-region - integer corresponding to the 28 different regions an employee can be responsible for
-Methods:
-__repr__: returns a printable representation of the employee's email
-hash_password: encrypts password using sql-alchemy's built in encryption method
-verify_password: verifies the provided password using the password_hash and sqlalchemy's verify method
-serialize - formats and returns information in a dictionary format
+method: new_employee()
+URL: https://shielded-cove-74710.herokuapp.com/api/employees/new
+adds a new ARET employee account to the database
+required: email, password
+returns: json object containing id, email and user type
 
-class Farmer
-This is the Farmer table for the database, contains all pertinent information for the farmers of Malawi that use this application
-Ambiguous Attributes:
-region - integer corresponding to the 28 different regions a farmer can live in
-Methods:
-__repr__: returns a printable representation of the farmer's email
-hash_password: encrypts password using sql-alchemy's built in encryption method
-verify_password: verifies the provided password using the password_hash and sqlalchemy's verify method
-serialize - formats and returns information in a dictionary format
+method: get_employees()
+URL: https://shielded-cove-74710.herokuapp.com/api/employees/all
+provides a list of employees
+required: none
+returns: json object containing all ARET employee accounts
 
+method: login_employee()
+URL: https://shielded-cove-74710.herokuapp.com/api/employees/login
+authenticates the provided account information
+possible status: ok, invalid email, invalid password
+required: email, password
+returns: json object containing status, email, and user type
 
-# method: get_farmers()
-# URL: /api/farmers/all
-#
-# this method returns all farmers infomation as a json list through URL
+method: query_employees
+URL: https://shielded-cove-74710.herokuapp.com/api/employees/query
+queries the database to produce a list of ARET employees based on type and/or region
+required: none
+returns: json object containing all ARET employee accounts that satisfy the search criteria
 
-# method: new_farmer()
-# URL: /api/farmers/new
-#
-# this method create a new farmer into database
-# the infomations must be given are farmer email and password through URL
-# it returns the primary key of farmer and the farmer email
+method: get_farmers()
+URL: https://shielded-cove-74710.herokuapp.com/api/farmers/all
+returns: json object containing all farmer accounts in the database
 
-# method: update_farmer
-# URL: /api/farmers/update
-#
-# this method update a farmer's information through URL
-# the information must be given is farmer email
-# it returns the changed json table
+method: new_farmer()
+URL: https://shielded-cove-74710.herokuapp.com/api/farmers/new
+adds a new farmer account to the database
+required info: email, password
+returns: json object containing farmer id, farmer email
 
-# method: login_user()
-# URL: /api/farmers/login
-#
-# the farmer email and password must be given through URL
-# it returns the login status and farmer email as a json table
+method: update_farmer
+URL: https://shielded-cove-74710.herokuapp.com/api/farmers/update
+updates farmer account information based on information provided
+required info: farmer email
+returns: updated json object
 
-# method: query_farmers()
-# URL: /api/farmers/query
-#
-# this method is a filter farmer's age or region
-# one of them or both must be given
-# return all farmers satisfy the filter condition as a json list
+method: login_user()
+URL: https://shielded-cove-74710.herokuapp.com/api/farmers/login
+authenticates the provided account information
+possible status: ok, invalid email, invalid password
+required info: farmer email, password
+returns: login status, and farmer email in a json object
+
+method: query_farmers()
+URL: https://shielded-cove-74710.herokuapp.com/api/farmers/query
+queries the database to produce a list of farmers based on age and/or region
+required: none
+returns: json object with all farmers that satisfy the filter conditions
+
+method: get_all_crops()
+URL: https://shielded-cove-74710.herokuapp.com/api/crops
+required: none
+returns: json object containing all crops recognized by the system
