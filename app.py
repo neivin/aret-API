@@ -112,7 +112,7 @@ def new_farmer():
 	db.session.add(farmer)
 	db.session.commit()
 
-	return (jsonify({'email': farmer.email}), 201)
+	return (jsonify({'id': farmer.id, 'email': farmer.email}), 201)
 
 # PUT - Update a farmer's information
 # curl -i -H "Content-Type: application/json" -X PUT -d '{"email":"a@test.com", phone":"123456789", "region":"2"}' https://shielded-cove-74710.herokuapp.com/api/farmers/update
