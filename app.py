@@ -254,6 +254,11 @@ def query_farmer_record():
 		abort(400)
 
 	farmer = Farmer.query.filter_by(email=farmer_email).first()
+
+	# if farmer does not exist
+	if farmer is None:
+		abort(400)
+
 	all_records = Record.query.filter_by(farmer_id=farmer.id).all()
 
 	serialized_records = [record.serialize for record in all_records]
