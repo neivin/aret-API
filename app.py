@@ -127,7 +127,7 @@ class Record(db.Model):
 
 # Create new record
 # Must have: farmer email, crop_id
-@app.route('/api/records/new', methods['POST'])
+@app.route('/api/records/new', methods=['POST'])
 def new_record():
 	email= request.json.get('email')
 	crop_id= request.json.get('crop_id')
