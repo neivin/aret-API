@@ -1,3 +1,7 @@
+"""
+TODO: verify email method for users
+	region table, user type table (1 admin, 2 researcher, 3 ext group, 4 ext off/agent)
+"""
 from flask import Flask, request, abort, jsonify, make_response
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.heroku import Heroku
@@ -120,12 +124,22 @@ class Record(db.Model):
 
 		return delta_time
 
+	def serialize(self):
+		return {
+			'farmer_id': self.farmer_id,
+			'crop_id': self.crop_id,
+			'date_created': self.date_created,
+			'date_harvested': self.date_harvested,
+			'crop_yield': self.crop_yield
+		}
+
+
 """ ROUTES """
 
 """ FARMERCROPRECORDS """
-# POST - Add a new record
+# POST - Add a new record <done>
 # GET - Get all records (necessary?)
-# GET - Get records of a specific farmer
+# GET - Get records of a specific farmer <done>
 # PUT - Harvest crop with yield
 # DELETE - Delete a record
 
@@ -158,6 +172,23 @@ def new_record():
 					'date_created': Record.epoch_time(new_rec.date_created),
 					'date_harvested': None,
 					'crop_yield': None}), 201)
+
+
+# Obtain records for a farmer by email
+# GET - Get the records for a specific farmer
+@app.route('/api/records/farmer')
+def query_farmer_record():
+	farmer_email = request.args.get('email')
+
+	if farmer_email is None:
+		abort(400)
+
+	farmer = Farmer.query.filter_by(email=farmer_email).first()
+	all_records = Record.query.filter_by(farmer_id=farmer.id).all()
+
+	serialized_records = [record.serialize for record in all_records]
+	
+	return jsonify('records': serialized_records)
 
 
 
