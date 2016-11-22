@@ -195,7 +195,7 @@ def login_user():
 @app.route('/api/farmers/query')
 def query_farmers():
 	age = request.args.get('age')
-	region = rquest.args.get('region')
+	region = request.args.get('region')
 
 	all_farmers = Farmer.query.all()
 
