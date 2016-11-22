@@ -149,6 +149,16 @@ class Record(db.Model):
 # PUT - Harvest crop with yield done
 # DELETE - Delete a record TODOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 
+
+# GET- Get every single record lol
+@app.route('/api/records/all')
+def get_all_records():
+	all_records = Record.query.all()
+	serialized_records = [rec.serialize for rec in all_records]
+
+	return jsonify({'records': serialized_records})
+
+
 # DELETE - Delete a record
 @app.route('/api/records/delete/<int:record_id>', methods=['DELETE'])
 def delete_record(record_id):
