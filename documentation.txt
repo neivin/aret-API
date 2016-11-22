@@ -1,8 +1,14 @@
-method new_record()
+method: new_record()
 URL: https://shielded-cove-74710.herokuapp.com/api/records/new
 adds a new record to farmer's history
 required: farmer email, crop id
 returns: json object containing all information for the new record
+
+method: query_farmer_record()
+https://shielded-cove-74710.herokuapp.com/api/records/farmer
+queries the database for record history of a farmer
+required: farmer email
+returns: json object containing all records associated with that farmer
 
 method: new_employee()
 URL: https://shielded-cove-74710.herokuapp.com/api/employees/new
