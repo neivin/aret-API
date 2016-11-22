@@ -251,7 +251,6 @@ def new_employee():
 	password = request.json.get('password')
 	phone = request.json.get('phone')
 	region = request.json.get('region')
-	age = request.json.get('age')
 	user_type = request.json.get('user_type')
 
 	# email and password must be there
@@ -268,7 +267,7 @@ def new_employee():
 
 	pw_hash = Employee.hash_password(password)
 
-	emp = Employee(name=name, email=email, user_type=user_type, password_hash= pw_hash, phone=phone, region=region, age=age)
+	emp = Employee(name=name, email=email, user_type=user_type, password_hash= pw_hash, phone=phone, region=region)
 	
 	db.session.add(emp)
 	db.session.commit()
