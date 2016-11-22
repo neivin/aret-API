@@ -41,7 +41,7 @@ required: email, password
 
 returns: json object containing status, email, and user type
 
-### GET - query some criteria
+### GET - Query some criteria
 URL: https://shielded-cove-74710.herokuapp.com/api/employees/query
 
 queries the database to produce a list of ARET employees based on type and/or region
@@ -57,7 +57,7 @@ URL: https://shielded-cove-74710.herokuapp.com/api/farmers/all
 
 returns: json object containing all farmer accounts in the database
 
-### POST - new farmer
+### POST - New farmer
 URL: https://shielded-cove-74710.herokuapp.com/api/farmers/new
 
 adds a new farmer account to the database
@@ -66,7 +66,7 @@ required info: email, password
 
 returns: json object containing farmer id, farmer email
 
-### PUT -  update_farmer
+### PUT - Update farmer
 URL: https://shielded-cove-74710.herokuapp.com/api/farmers/update
 
 updates farmer account information based on information provided
@@ -97,7 +97,7 @@ returns: json object with all farmers that satisfy the filter conditions
 
 ## Records
 
-### POST - Make new crops 
+### POST - Make new crops
 URL: https://shielded-cove-74710.herokuapp.com/api/records/new
 
 adds a new record to farmer's history
@@ -114,3 +114,21 @@ queries the database for record history of a farmer
 required: farmer email
 
 returns: json object containing all records associated with that farmer
+
+### DELETE - Delete record
+URL: https://shielded-cove-74710.herokuapp.com/api/records/delete/2
+
+removes existing record from the database
+
+required: record id
+
+returns: json object containing all information in the deleted record
+
+### PUT - Update record
+URL: https://shielded-cove-74710.herokuapp.com/api/records/update/1
+
+updates the record with crop_yield and date it was harvested
+
+required: id, crop_yield included as json data
+
+returns: json object containing all information in the updated record
