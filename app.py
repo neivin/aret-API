@@ -170,9 +170,20 @@ def login_user():
 	email = request.args.get('email')
 	password = request.args.get('password')
 
+
+	if email is None:
+		abort(400)
+	if password is None:
+		abort(400)
+
+	existing_farmer = Farmer.query.filter_by(email=email).first()
+
+	if not existing_farmer.verify_password(password):
+		return make_response(jsonify({'status':'invalid password'}), 401)
+
 	return jsonify({
-		'email':email,
-		'password': password
+		'status': 'ok',
+		'email':email
 		})
 
 
