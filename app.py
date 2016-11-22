@@ -115,7 +115,7 @@ class Record(db.Model):
 
 	@staticmethod
 	def epoch_time(date):
-		epoch = datetime.datetime(1970,1,1)
+		epoch = datetime(1970,1,1)
 		delta_time = int((date - epoch).total_seconds())
 
 		return delta_time
