@@ -124,6 +124,7 @@ class Record(db.Model):
 
 		return delta_time
 
+	@property
 	def serialize(self):
 		return {
 			'farmer_id': self.farmer_id,
