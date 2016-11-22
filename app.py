@@ -178,7 +178,7 @@ def update_record(record_id):
 	#commit data
 	db.session.commit()
 
-	return (jsonify({'id': record.id
+	return (jsonify({'id': record.id,
 					'farmer_id': record.farmer_id,
 					'farmer_email': farmer.email,
 					'crop_id': record.crop_id,
@@ -208,7 +208,7 @@ def new_record():
 	db.session.add(new_rec)
 	db.session.commit()
 
-	return (jsonify({'id': new_rec.id
+	return (jsonify({'id': new_rec.id,
 					'farmer_id': new_rec.farmer_id,
 					'farmer_email': farmer.email,
 					'crop_id': crop_id,
