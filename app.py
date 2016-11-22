@@ -56,7 +56,7 @@ def get_all_crops():
 	all_crops = Crop.query.all()
 	serialized_crops = [crop.serialize for crop in all_crops]
 
-	return jsonify(json_crop_list)
+	return jsonify({'crops': json_crop_list})
 
 @app.route('/api/user/<int:id>')
 def get_user(id):
