@@ -119,10 +119,11 @@ def new_farmer():
 @app.route('/api/farmers/update', methods=['PUT'])
 def update_farmer():
 	print 'entered update'
+	
 	if not request.json:
-		print 'not request json'
 		abort(400)
 
+	print "reached 1"
 	name = request.json.get('name')
 	email = request.json.get('email')
 	password = request.json.get('password')
@@ -132,6 +133,7 @@ def update_farmer():
 
 	existing_farmer = Farmer.query.filter_by(email=email).first()
 
+	print "reached 2"
 	# farmer doesn't exist
 	if existing_farmer is None:
 		print "no farmer"
