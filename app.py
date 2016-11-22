@@ -163,7 +163,7 @@ def update_farmer():
 		})
 
 
-
+# GET - Pass in login information to get response
 # In the format ?email=x@example.com&password=something
 @app.route('/api/farmers/login')
 def login_user():
@@ -190,6 +190,26 @@ def login_user():
 		})
 
 
+# GET - Query farmers on some criteria
+# Query terms: age, region
+@app.route('/api/farmers/query')
+def query_farmers():
+	age = request.args.get('age')
+	region = rquest.args.get('region')
+
+	all_farmers = Farmer.query.all()
+
+	if age is not None and region is not None:
+		all_farmers = Farmer.query.filter_by(age=age, region=region).all()
+	elif age is not None:
+		all_farmers = Farmer.query.filter_by(age=age).all()
+	elif region is not None:
+		all_farmers = Farmer.query.filter_by(region=region).all()
+
+	
+	serialized_farmers = [farmer.serialize for farmer in all_farmers]
+
+	return jsonify({'farmers': serialized_farmers})
 
 
 """ MASTER CROP LIST """
