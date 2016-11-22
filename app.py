@@ -157,7 +157,6 @@ def update_farmer():
 
 	db.session.commit()
 
-	print 'age ' + existing_farmer.age
 	return jsonify({
 			'id': existing_farmer.id,
 			'email': existing_farmer.email,
