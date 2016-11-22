@@ -111,7 +111,7 @@ class Record(db.Model):
 	crop_id= db.Column(db.Integer, db.ForeignKey('CROPMASTERLIST.id'))
 	date_created=db.Column(db.DateTime)
 	date_harvested=db.Column(db.DateTime)
-	yield = db.Column(db.Integer)
+	crop_yield = db.Column(db.Integer)
 
 	@staticmethod
 	def epoch_time(date):
@@ -151,7 +151,7 @@ def new_record():
 					'crop_name':crop.name,
 					'date_created': Record.epoch_time(new_rec.date_created),
 					'date_harvested': None,
-					'yield': None}), 201)
+					'crop_yield': None}), 201)
 
 
 
