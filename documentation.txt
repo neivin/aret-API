@@ -1,0 +1,24 @@
+class Crop
+This table contains a master list of all crops that are recognized by this application, and a small description of the crop
+
+class Employee
+This is the ARET Employee table for the database, contains all pertinent
+information for employees
+Ambiguous Attributes:
+user_type - integer corresponding to different user types: 1 admin, 2 researcher, 3 ext group, 4 ext off/agent
+region - integer corresponding to the 28 different regions an employee can be responsible for
+Methods:
+__repr__: returns a printable representation of the employee's email
+hash_password: encrypts password using sql-alchemy's built in encryption method
+verify_password: verifies the provided password using the password_hash and sqlalchemy's verify method
+serialize - formats and returns information in a dictionary format
+
+class Farmer
+This is the Farmer table for the database, contains all pertinent information for the farmers of Malawi that use this application
+Ambiguous Attributes:
+region - integer corresponding to the 28 different regions a farmer can live in
+Methods:
+__repr__: returns a printable representation of the farmer's email
+hash_password: encrypts password using sql-alchemy's built in encryption method
+verify_password: verifies the provided password using the password_hash and sqlalchemy's verify method
+serialize - formats and returns information in a dictionary format
