@@ -156,11 +156,16 @@ def delete_record(record_id):
 	if record is None:
 		abort(400)
 
+	# prevent trying to convert Null to epoch
+	harvest = None
+	if record.date_harvested is not None:
+		harvest =  Record.epoch_time(record.date_harvested)
+
 	deleted_rec = jsonify({'id': record.id,
 					'farmer_id': record.farmer_id,
 					'crop_id': record.crop_id,
 					'date_created': Record.epoch_time(record.date_created),
-					'date_harvested': Record.epoch_time(record.date_harvested),
+					'date_harvested': harvest,
 					'crop_yield': record.crop_yield})
 
 	db.session.delete(record)
