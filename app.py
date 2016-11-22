@@ -64,7 +64,7 @@ class Farmer(db.Model):
 			'id': self.id,
 			'email': self.email,
 			'name': self.name,
-			'phone' self.phone,
+			'phone': self.phone,
 			'region': self.region,
 			'age': self.age
 		}
