@@ -53,7 +53,7 @@ class Farmer(db.Model):
 		return '<Farmer: %r>' % self.email
 
 	@staticmethod
-	def hash_password(self, password):
+	def hash_password(password):
 		self.password_hash = pass_context.encrypt(password)
 
 	def verify_password(self, password):
@@ -85,7 +85,7 @@ def get_farmers():
 	serialized_farmers = [farmer.serialize for farmer in all_farmers]
 
 	return jsonify({'farmers': serialized_farmers})
-	
+
 
 # curl -i -H "Content-Type: application/json" -X POST -d '{"email":"a2@test.com", "password":"password"}' https://shielded-cove-74710.herokuapp.com/api/farmers/new
 @app.route('/api/farmers/new', methods=['POST'])
