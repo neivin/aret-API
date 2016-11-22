@@ -267,6 +267,56 @@ def query_farmer_record():
 # GET - List all employees
 # GET - List of employees filtered on som criteria
 # POST - Create account
+# PUT - Update employee info
+
+# PUT - Update employe information
+# curl -i -H "Content-Type: application/json" -X PUT -d '{"email":"a@test.com", "name":"test name"}' https://shielded-cove-74710.herokuapp.com/api/farmers/update
+@app.route('/api/employees/update', methods=['PUT'])
+def update_employee():
+	if not request.json:
+		abort(400)
+
+	email = request.json.get('email')
+	name = request.json.get('name')
+	password = request.json.get('password')
+	phone = request.json.get('phone')
+	region = request.json.get('region')
+	user_type = request.json.get('age')
+
+	existing_emp = Employee.query.filter_by(email=email).first()
+
+	# farmer doesn't exist
+	if existing_emp is None:
+		abort(400)
+
+	if name is not None:
+		existing_emp.name = name
+
+	if password is not None:
+		existing_emp.password_hash = Employee.hash_password(password)
+
+	if phone is not None:
+		existing_emp.phone = phone
+
+	if region is not None:
+		existing_emp.region = region
+
+	if user_type is not None:
+		if user_type < 1 or user_type > 4:
+			abort(400)
+
+		existing_emp.user_type = user_type
+
+	db.session.commit()
+
+	return jsonify({
+			'id': existing_emp.id,
+			'name': existing_emp.name,
+			'email': existing_emp.email,
+			'phone': existing_emp.phone,
+			'user_type': existing_emp.user_type,
+			'region': existing_emp.region
+		})
 
 
 # curl -i -H "Content-Type: application/json" -X POST -d '{"email":"testadmin@test.com", "password":"password", "user_type":1}' https://shielded-cove-74710.herokuapp.com/api/employees/new
