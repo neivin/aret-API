@@ -120,8 +120,8 @@ def new_farmer():
 def update_farmer():
 	print 'entered update'
 	
-	if not request.json:
-		abort(400)
+	#if not request.json:
+	#	abort(400)
 
 	print "reached 1"
 	name = request.json.get('name')
