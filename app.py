@@ -154,7 +154,7 @@ def update_farmer():
 	db.session.commit()
 
 	return jsonify({
-			'id': existing_farmer.id
+			'id': existing_farmer.id,
 			'name': existing_farmer.name,
 			'email': existing_farmer.email,
 			'phone': existing_farmer.phone,
