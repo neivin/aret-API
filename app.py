@@ -154,13 +154,16 @@ def update_farmer():
 
 	db.session.commit()
 
-	return jsonify({
+	x = jsonify({
 			'id': existing_farmer.id,
 			'email': existing_farmer.email,
 			'phone': existing_farmer.phone,
 			'age': existing_farmer.age,
 			'region': existing_farmer.region
 		})
+
+	print x
+	return x
 
 
 
