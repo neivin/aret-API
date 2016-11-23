@@ -19,7 +19,7 @@ for name in list:
 
 	f = app.Farmer(name=name, email=fname+'@aret.com', phone='123456', region=region, age=age)
 	f.password_hash = pwd.encrypt('password')
-	count++
+	count+=1
 	db.session.add(f)
 
 db.session.commit()
