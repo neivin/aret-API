@@ -30,7 +30,7 @@ required: email
 
 optional: password, name, phone, user_type, region
 
-returns: 200 OK. JSON object with employee's updated details. 
+returns: 200 OK. JSON object with employee's updated details.
 
 ### GET - Get the list of all employees
 URL: https://shielded-cove-74710.herokuapp.com/api/employees/all
@@ -116,6 +116,13 @@ adds a new record to farmer's history
 required: farmer email, crop_id
 
 returns: json object containing all information for the new record
+
+### GET - Get all records
+URL: https://shielded-cove-74710.herokuapp.com/api/records/all
+
+required: none
+
+returns: json object containing all records stored in the database
 
 ### GET - Query farmer records
 URL: https://shielded-cove-74710.herokuapp.com/api/records/farmer?email=x@y.com
