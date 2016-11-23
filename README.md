@@ -84,7 +84,9 @@ updates farmer account information based on information provided
 
 required info: email
 
-returns: updated json object
+optional: name, password, phone, region, age
+
+returns: json object with farmer's updated details
 
 ### GET - Login farmer
 URL: https://shielded-cove-74710.herokuapp.com/api/farmers/login?email=x@y.com&password=pass
