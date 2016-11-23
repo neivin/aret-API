@@ -301,7 +301,7 @@ def update_employee():
 	password = request.json.get('password')
 	phone = request.json.get('phone')
 	region = request.json.get('region')
-	user_type = request.json.get('age')
+	user_type = request.json.get('user_type')
 
 	existing_emp = Employee.query.filter_by(email=email).first()
 
@@ -340,6 +340,7 @@ def update_employee():
 
 
 # curl -i -H "Content-Type: application/json" -X POST -d '{"email":"testadmin@test.com", "password":"password", "user_type":1}' https://shielded-cove-74710.herokuapp.com/api/employees/new
+# emp = app.Employee(name='Eddard Stark', email='eddard@aret.com', user_type=1, phone='1234567', region=1)
 @app.route('/api/employees/new', methods=['POST'])
 def new_employee():
 	email = request.json.get('email')
